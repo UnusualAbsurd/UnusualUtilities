@@ -275,4 +275,4 @@ module.exports = {
 }
 
 
-client.login(`${env.TOKEN}`)
+client.login(process.env.TOKEN)
