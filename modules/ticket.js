@@ -33,8 +33,6 @@ module.exports = async (client, discord) => {
 
                 if (interaction.customId === 'ticket') {
 
-
-
                     const filter = await interaction.guild.channels.cache.find(r => r.topic === `${interaction.user.id}`);
                     if (filter) return interaction.reply({ ephemeral: true, content: `It looks like you already have a ticket! Please visit: <#${filter.id}> . If its an invalid channel, please contact the support team.` })
                     if (!filter) {
@@ -93,7 +91,7 @@ module.exports = async (client, discord) => {
                             .setAuthor(`${interaction.user.tag}`, interaction.user.displayAvatarURL({ dynamic: true }))
                             .setFooter(interaction.user.id)
 
-                        ch.send(`<@!${interaction.user.id}>`).then(m => setTimeout(() => m.delete().catch(() => { }), 200))
+                        ch.send(`<@!${interaction.user.id}> | <@&901004742304616478>`).then(m => setTimeout(() => m.delete().catch(() => { }), 200))
                         ch.send({ embeds: [create_embed], components: [new discord.MessageActionRow().addComponents([claim, close_button, new discord.MessageButton().setLabel('Save Transcript').setStyle("SECONDARY").setCustomId('save').setEmoji('📑')])] })
 
                         log.send({
@@ -109,7 +107,7 @@ module.exports = async (client, discord) => {
                     }
                 } // Ticket Button
                 if (interaction.customId === 'save') {
-
+                    
                     if (!interaction.member.roles.cache.has('901004742304616478')) {
                         interaction.reply({ ephemeral: true, content: `Only the <@&901004742304616478> can save transcripts.` })
                     } else {
