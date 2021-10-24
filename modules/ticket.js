@@ -33,10 +33,14 @@ module.exports = async (client, discord) => {
 
                 if (interaction.customId === 'ticket') {
 
+
+
                     const filter = await interaction.guild.channels.cache.find(r => r.topic === `${interaction.user.id}`);
                     if (filter) return interaction.reply({ ephemeral: true, content: `It looks like you already have a ticket! Please visit: <#${filter.id}> . If its an invalid channel, please contact the support team.` })
                     if (!filter) {
-                        interaction.deferUpdate()
+
+
+
                         const ch = await interaction.guild.channels.create(`ticket-${Math.floor(1000 + Math.random() * 9000)}`, {
                             reason: 'Creating Ticket Channel',
                             type: "GUILD_TEXT",
@@ -82,6 +86,12 @@ module.exports = async (client, discord) => {
                             ]
                         })
 
+                        interaction.reply({ ephemeral: true, content: `Successfully created your ticket: <#${ch.id}>` })
+                        interaction.user.send({
+                            embeds: [new discord.MessageEmbed()
+                            .setColor("GREEN").setTitle('Ticket Log').setDescription(`You have created a ticket. <#${ch.id}>`).setFooter(`Ticket ID: ${ch.name.split('-')[1]}`).setTimestamp()]
+                        })
+
                         const user = await client.users.fetch(`${ch.topic}`)
 
                         const create_embed = new Discord.MessageEmbed()
@@ -91,7 +101,7 @@ module.exports = async (client, discord) => {
                             .setAuthor(`${interaction.user.tag}`, interaction.user.displayAvatarURL({ dynamic: true }))
                             .setFooter(interaction.user.id)
 
-                        ch.send(`<@!${interaction.user.id}> | <@&901004742304616478>`).then(m => setTimeout(() => m.delete().catch(() => { }), 200))
+                        ch.send(`<@!${interaction.user.id}>`).then(m => setTimeout(() => m.delete().catch(() => { }), 200))
                         ch.send({ embeds: [create_embed], components: [new discord.MessageActionRow().addComponents([claim, close_button, new discord.MessageButton().setLabel('Save Transcript').setStyle("SECONDARY").setCustomId('save').setEmoji('📑')])] })
 
                         log.send({
@@ -107,7 +117,7 @@ module.exports = async (client, discord) => {
                     }
                 } // Ticket Button
                 if (interaction.customId === 'save') {
-                    
+
                     if (!interaction.member.roles.cache.has('901004742304616478')) {
                         interaction.reply({ ephemeral: true, content: `Only the <@&901004742304616478> can save transcripts.` })
                     } else {
