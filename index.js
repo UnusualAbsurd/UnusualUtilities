@@ -251,33 +251,6 @@ client.on('messageCreate', async message => {
     else return
 })
 
-/**
- * Verification
- */
-
-client.on('interactionCreate', async interaction => {
-    if (interaction.isButton()) {
-
-        if (interaction.message.author.id !== client.user.id) return;
-
-        if (interaction.customId === 'verify-unusualden') {
-
-            if (interaction.member.roles.cache.has("901004970671870012")) {
-                interaction.reply({ content: 'You have been verified already. Contact the support team for help.', ephemeral: true })
-            }
-            else {
-                interaction.deferUpdate();
-                (await interaction.user.createDM()).send({ embeds: [new discord.MessageEmbed().setColor("GREEN").setDescription('<:GreenTick:899904309293109268> You have successfully been verified in ' + interaction.guild.name).setTimestamp().setAuthor(`${interaction.user.tag}`, `${interaction.user.displayAvatarURL({ dynamic: true })}`)] })
-                interaction.member.roles.remove('901007075272982528').catch(() => { });
-                interaction.member.roles.add('901004970671870012').catch(() => { })
-            }
-
-
-        }
-
-    }
-})
-
 require('./modules/roles')(client, discord)
 require('./modules/ticket')(client, discord)
 
