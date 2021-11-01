@@ -2,7 +2,6 @@ const discord = require('discord.js');
 require('dotenv').config();
 const env = process.env
 
-
 const color = '#2F3136';
 
 function checkForOwner(message) {
@@ -250,6 +249,32 @@ client.on('messageCreate', async message => {
       })
     }
     else return
+})
+
+/**
+ * Verification
+ */
+
+client.on('interactionCreate', async interaction => {
+    if (interaction.isButton()) {
+
+        if (interaction.message.author.id !== client.user.id) return;
+
+        if (interaction.customId === 'verify-unusualden') {
+
+            if (interaction.member.roles.cache.has("901004970671870012")) {
+                interaction.reply({ content: 'You have been verified already. Contact the support team for help.', ephemeral: true })
+            }
+            else {
+                interaction.deferUpdate();
+                interaction.member.roles.remove('901007075272982528').catch(() => { });
+                interaction.member.roles.add('901004970671870012').catch(() => { })
+            }
+
+
+        }
+
+    }
 })
 
 require('./modules/roles')(client, discord)
