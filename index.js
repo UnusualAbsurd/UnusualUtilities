@@ -2,6 +2,7 @@ const discord = require('discord.js');
 require('dotenv').config();
 const env = process.env
 
+
 const color = '#2F3136';
 
 function checkForOwner(message) {
