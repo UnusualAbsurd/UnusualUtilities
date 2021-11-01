@@ -172,12 +172,7 @@ module.exports = async (client, discord) => {
 
                 if (interaction.customId == 'close') {
 
-                    if (!interaction.member.roles.cache.has('901004742304616478')) {
-                        interaction.reply({ ephemeral: true, content: `Only the <@&901004742304616478> can close tickets.` })
-
-
-
-                    } else {
+                  
                         if (interaction.channel.parentId === parent.close) return interaction.reply({ ephemeral: true, content: `Ticket <#${interaction.channel.name}> is already closed.` })
 
 
@@ -202,7 +197,6 @@ module.exports = async (client, discord) => {
 
                                 ]
                             })
-                        }
                     }
 
 
